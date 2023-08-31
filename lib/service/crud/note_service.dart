@@ -296,14 +296,16 @@ const emailColumn = 'email';
 const userIdColumn = 'user_id';
 const textColumn = 'text';
 const isSyncedWithCloudColumn = 'is_synced_with_cloud';
-const createUserTable = '''CREATE TABLE IF NOT EXISTS user(
-                                id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-                                email VARCHAR(100) NOT NULL UNIQUE
-                                );''';
-const createNotesTable = '''CREATE TABLE IF NOT EXISTS notes(
-id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-user_id INT NOT NULL,
-FOREIGN KEY(user_id) REFERENCES user(id),
-text TEXT,
-is_synced_with_cloud BOOL DEFAULT 0 NOT NULL
+const createUserTable = '''CREATE TABLE IF NOT EXISTS "user" (
+	"id"	INTEGER NOT NULL,
+	"email"	TEXT NOT NULL UNIQUE,
+	PRIMARY KEY("id" AUTOINCREMENT)
+);''';
+const createNotesTable = '''CREATE TABLE IF NOT EXISTS "notes" (
+	"id"	INTEGER NOT NULL,
+	"user_id"	INTEGER NOT NULL,
+	"text"	TEXT,
+	"is_synced_with_cloud"	INTEGER NOT NULL DEFAULT 0,
+	PRIMARY KEY("id" AUTOINCREMENT),
+	FOREIGN KEY("user_id") REFERENCES "user"("id")
 );''';
