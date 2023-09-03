@@ -52,7 +52,7 @@ class _CreateUpdateNotesViewState extends State<CreateUpdateNotesView> {
       return existingNotes;
     }
     final currentUser = AuthService.firebase().currentUser!;
-    final email = currentUser.email!;
+    final email = currentUser.email;
     final owner = await _notesService.getUser(email: email);
     final newNotes = await _notesService.createNotes(owner: owner);
     _notes = newNotes;
@@ -89,7 +89,10 @@ class _CreateUpdateNotesViewState extends State<CreateUpdateNotesView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('New Notes'),
+        title: const Text(
+          'New Notes',
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: const Color.fromARGB(255, 78, 136, 207),
       ),
       body: FutureBuilder(
@@ -103,7 +106,7 @@ class _CreateUpdateNotesViewState extends State<CreateUpdateNotesView> {
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
                   decoration: const InputDecoration(
-                    hintText: 'Starting typing your notes here . . .',
+                    hintText: 'Start typing your notes here...',
                   ),
                 );
               default:
