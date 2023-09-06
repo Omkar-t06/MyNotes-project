@@ -1,11 +1,16 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:mynotes/constant/routes.dart';
 import 'package:mynotes/service/auth/auth_service.dart';
+import 'package:mynotes/service/auth/bloc/auth_bloc.dart';
+import 'package:mynotes/service/auth/bloc/auth_event.dart';
 import 'package:mynotes/service/cloud/cloud_notes.dart';
 import 'package:mynotes/service/cloud/firebase_cloud_storage.dart';
 import 'package:mynotes/views/notes/notes_list_view.dart';
 import '../../enums/menu_actions.dart';
 import '../../utilities/dialog/logout_dialog.dart';
+import 'package:flutter_bloc/flutter_bloc.dart' show ReadContext;
 
 class NotesView extends StatefulWidget {
   const NotesView({super.key});
@@ -46,10 +51,9 @@ class _NotesViewState extends State<NotesView> {
                 case MenuAction.logout:
                   final shouldLogOut = await showLogOutDialog(context);
                   if (shouldLogOut) {
-                    await AuthService.firebase().logout();
-                    // ignore: use_build_context_synchronously
-                    Navigator.of(context)
-                        .pushNamedAndRemoveUntil(loginRoute, (_) => false);
+                    context.read<AuthBloc>().add(
+                          const AuthEventLogOut(),
+                        );
                   }
                   break;
               }
