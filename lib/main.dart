@@ -51,7 +51,9 @@ class HomePage extends StatelessWidget {
             context: context,
             text: state.loadingText ?? 'Please wait a moment',
           );
-        } else {}
+        } else {
+          LoadingScreen().hide();
+        }
       },
       builder: (context, state) {
         if (state is AuthStateLoggedIn) {
