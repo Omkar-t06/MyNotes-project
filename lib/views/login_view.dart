@@ -41,7 +41,7 @@ class _LoginViewState extends State<LoginView> {
           if (state.exception is UserNotFoundAuthException) {
             await showErrorDialog(
               context,
-              'User Not Found',
+              'Cannot find User with entered credentials!',
             );
           } else if (state.exception is WrongPasswordAuthException) {
             await showErrorDialog(
@@ -65,13 +65,14 @@ class _LoginViewState extends State<LoginView> {
           backgroundColor: const Color.fromARGB(255, 78, 136, 207),
         ),
         body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const Text('Enter your credencials here to log in!'),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
               child: TextField(
                 controller: _email,
                 keyboardType: TextInputType.emailAddress,
+                autofocus: true,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Email',
@@ -93,29 +94,30 @@ class _LoginViewState extends State<LoginView> {
                 ),
               ),
             ),
-            Center(
-              child: TextButton(
-                  onPressed: () async {
-                    final email = _email.text;
-                    final password = _password.text;
-                    context.read<AuthBloc>().add(
-                          AuthEventLogIn(
-                            email,
-                            password,
-                          ),
-                        );
-                  },
-                  child: const Text("Login")),
+            TextButton(
+                onPressed: () async {
+                  final email = _email.text;
+                  final password = _password.text;
+                  context.read<AuthBloc>().add(
+                        AuthEventLogIn(
+                          email,
+                          password,
+                        ),
+                      );
+                },
+                child: const Text("Login")),
+            TextButton(
+              onPressed: () {
+                context.read<AuthBloc>().add(const AuthEventShouldRegister());
+              },
+              child: const Text("Don't have a account?Register here!!"),
             ),
-            Center(
-              child: TextButton(
-                  onPressed: () {
-                    context
-                        .read<AuthBloc>()
-                        .add(const AuthEventShouldRegister());
-                  },
-                  child: const Text("Don't have a account?Register here!!")),
-            )
+            TextButton(
+              onPressed: () {
+                context.read<AuthBloc>().add(const AuthEventForgotPassword());
+              },
+              child: const Text("Forgor Password?"),
+            ),
           ],
         ),
       ),

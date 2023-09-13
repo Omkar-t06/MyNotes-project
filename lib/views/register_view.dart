@@ -68,7 +68,6 @@ class _RegisterViewState extends State<RegisterView> {
           backgroundColor: const Color.fromARGB(255, 78, 136, 207),
         ),
         body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(
@@ -78,6 +77,7 @@ class _RegisterViewState extends State<RegisterView> {
               child: TextField(
                 controller: _email,
                 keyboardType: TextInputType.emailAddress,
+                autofocus: true,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Email',
@@ -102,29 +102,25 @@ class _RegisterViewState extends State<RegisterView> {
                 ),
               ),
             ),
-            Center(
-              child: TextButton(
-                  onPressed: () async {
-                    final email = _email.text;
-                    final password = _password.text;
-                    context.read<AuthBloc>().add(
-                          AuthEventRegister(
-                            email,
-                            password,
-                          ),
-                        );
-                  },
-                  child: const Text("Register")),
-            ),
-            Center(
-              child: TextButton(
-                onPressed: () {
+            TextButton(
+                onPressed: () async {
+                  final email = _email.text;
+                  final password = _password.text;
                   context.read<AuthBloc>().add(
-                        const AuthEventLogOut(),
+                        AuthEventRegister(
+                          email,
+                          password,
+                        ),
                       );
                 },
-                child: const Text('Click here to Login!!'),
-              ),
+                child: const Text("Register")),
+            TextButton(
+              onPressed: () {
+                context.read<AuthBloc>().add(
+                      const AuthEventLogOut(),
+                    );
+              },
+              child: const Text('Click here to Login!!'),
             ),
           ],
         ),
