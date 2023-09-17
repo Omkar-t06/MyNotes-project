@@ -69,6 +69,7 @@ class _RegisterViewState extends State<RegisterView> {
         ),
         body: Column(
           children: [
+            const Text("Enter your credentials to register"),
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 8,
