@@ -7,24 +7,26 @@ class CloudTodos {
   final String documentId;
   final String ownerUserId;
   final String title;
-  final String description;
+  final String? description;
   final bool isCompleted;
-  final DateTime dueDate;
+  final DateTime? dueDate;
 
   const CloudTodos({
     required this.documentId,
     required this.ownerUserId,
     required this.title,
-    required this.description,
+    this.description,
     required this.isCompleted,
-    required this.dueDate,
+    this.dueDate,
   });
 
   CloudTodos.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
       : documentId = snapshot.id,
         ownerUserId = snapshot.data()[ownerUserIdFieldName],
         title = snapshot.data()[titleFieldName] as String,
-        description = snapshot.data()[descriptionFieldName] as String,
+        description = snapshot.data()[descriptionFieldName] as String?,
         isCompleted = snapshot.data()[isCompletedFieldName] as bool,
-        dueDate = snapshot.data()[dueDateFieldName].toDate() as DateTime;
+        dueDate = snapshot.data()[dueDateFieldName] != null
+            ? snapshot.data()[dueDateFieldName].toDate() as DateTime
+            : null;
 }
