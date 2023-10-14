@@ -105,7 +105,10 @@ class _CreateUpdateNotesViewState extends State<CreateUpdateNotesView> {
                 Share.share(text);
               }
             },
-            icon: const Icon(Icons.share),
+            icon: const Icon(
+              Icons.share,
+              color: Colors.white,
+            ),
           )
         ],
         backgroundColor: const Color.fromARGB(255, 78, 136, 207),

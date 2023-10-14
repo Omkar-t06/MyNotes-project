@@ -39,12 +39,6 @@ class _NotesViewState extends State<NotesView> {
         ),
         backgroundColor: const Color.fromARGB(255, 78, 136, 207),
         actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed(createOrUpdateNotesRoute);
-            },
-            icon: const Icon(Icons.add),
-          ),
           PopupMenuButton<MenuAction>(
             onSelected: (value) async {
               switch (value) {
@@ -66,6 +60,7 @@ class _NotesViewState extends State<NotesView> {
                 )
               ];
             },
+            color: Colors.white,
           )
         ],
       ),
@@ -94,6 +89,12 @@ class _NotesViewState extends State<NotesView> {
               return const CircularProgressIndicator();
           }
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed(createOrUpdateNotesRoute);
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
