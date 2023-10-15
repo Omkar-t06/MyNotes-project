@@ -11,6 +11,7 @@ import 'package:mynotes/views/login_view.dart';
 import 'package:mynotes/views/notes/create_update_notes_view.dart';
 import 'package:mynotes/views/notes/notes_view.dart';
 import 'package:mynotes/views/register_view.dart';
+import 'package:mynotes/views/todo/create_update_todos.dart';
 import 'package:mynotes/views/verify_email_view.dart';
 
 void main() {
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         createOrUpdateNotesRoute: (context) => const CreateUpdateNotesView(),
+        createOrUpdateTodosRoute: (context) => const CreateUpdateTodosView(),
       },
     );
   }
