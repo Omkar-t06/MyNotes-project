@@ -9,9 +9,10 @@ import 'package:mynotes/service/auth/firebase_auth_provider.dart';
 import 'package:mynotes/views/forgot_password_view.dart';
 import 'package:mynotes/views/login_view.dart';
 import 'package:mynotes/views/notes/create_update_notes_view.dart';
-import 'package:mynotes/views/notes/notes_view.dart';
+//import 'package:mynotes/views/notes/notes_view.dart';
 import 'package:mynotes/views/register_view.dart';
 import 'package:mynotes/views/todo/create_update_todos.dart';
+import 'package:mynotes/views/todo/todo_view.dart';
 import 'package:mynotes/views/verify_email_view.dart';
 
 void main() {
@@ -61,7 +62,7 @@ class HomePage extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is AuthStateLoggedIn) {
-          return const NotesView();
+          return const TodoView();
         } else if (state is AuthStateNeedVerification) {
           return const VerifyEmailView();
         } else if (state is AuthStateLoggedOut) {

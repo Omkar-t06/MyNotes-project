@@ -16,14 +16,15 @@ class _CreateUpdateTodosViewState extends State<CreateUpdateTodosView> {
   late final FirebaseCloudStorage _todosService;
   late final TextEditingController _textControllerOfTitle;
   late final TextEditingController _textControllerOfdescrpition;
-  late final DateTime? _selectedDate;
-  late final bool _isCompleted;
+  DateTime? _selectedDate;
+  bool _isCompleted = false;
 
   @override
   void initState() {
     _todosService = FirebaseCloudStorage();
     _textControllerOfTitle = TextEditingController();
     _textControllerOfdescrpition = TextEditingController();
+    _selectedDate = null;
     super.initState();
   }
 
@@ -102,6 +103,7 @@ class _CreateUpdateTodosViewState extends State<CreateUpdateTodosView> {
     _saveTodosIfTitleIsNotEmpty();
     _textControllerOfTitle.dispose();
     _textControllerOfdescrpition.dispose();
+    _selectedDate;
     super.dispose();
   }
 
@@ -143,16 +145,27 @@ class _CreateUpdateTodosViewState extends State<CreateUpdateTodosView> {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      _selectedDate = showDatePicker(
+                    onPressed: () async {
+                      DateTime? pickedDate = await showDatePicker(
                         context: context,
                         initialDate: DateTime.now(),
                         firstDate: DateTime.now(),
                         lastDate: DateTime(2100),
-                      ) as DateTime?;
+                      );
+                      if (pickedDate != null) {
+                        setState(() {
+                          _selectedDate = pickedDate;
+                        });
+                      }
                     },
                     child: const Text("Select Date"),
                   ),
+                  ListTile(
+                      title: Text(
+                    _selectedDate == null
+                        ? 'No date selected'
+                        : 'Selected date: ${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}',
+                  )),
                   ListTile(
                     title: const Text('Is task completed?'),
                     trailing: Checkbox(

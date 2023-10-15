@@ -40,6 +40,10 @@ class TodoListView extends StatelessWidget {
             },
             icon: const Icon(Icons.delete),
           ),
+          leading: Checkbox(
+            value: todo.isCompleted,
+            onChanged: (value) {},
+          ),
         );
       },
     );
