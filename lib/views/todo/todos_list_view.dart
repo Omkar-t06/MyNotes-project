@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mynotes/service/cloud/cloud_todos.dart';
+import 'package:mynotes/utilities/dialog/delete_dialog.dart';
 
 typedef TodosCallback = void Function(CloudTodos todo);
 
@@ -24,6 +25,21 @@ class TodoListView extends StatelessWidget {
           onTap: () {
             onTap(todo);
           },
+          title: Text(
+            todo.title,
+            maxLines: 1,
+            softWrap: true,
+            overflow: TextOverflow.ellipsis,
+          ),
+          trailing: IconButton(
+            onPressed: () async {
+              final shouldDelete = await showDeleteDialog(context);
+              if (shouldDelete) {
+                onDeleteTodo(todo);
+              }
+            },
+            icon: const Icon(Icons.delete),
+          ),
         );
       },
     );
