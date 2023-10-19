@@ -7,12 +7,14 @@ typedef TodosCallback = void Function(CloudTodos todo);
 class TodoListView extends StatelessWidget {
   final Iterable<CloudTodos> todos;
   final TodosCallback onDeleteTodo;
+  final TodosCallback onCheckTodo;
   final TodosCallback onTap;
   const TodoListView({
     super.key,
     required this.todos,
     required this.onDeleteTodo,
     required this.onTap,
+    required this.onCheckTodo,
   });
 
   @override
@@ -42,7 +44,9 @@ class TodoListView extends StatelessWidget {
           ),
           leading: Checkbox(
             value: todo.isCompleted,
-            onChanged: (value) {},
+            onChanged: (value) {
+              onCheckTodo(todo);
+            },
           ),
         );
       },

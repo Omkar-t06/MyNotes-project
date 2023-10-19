@@ -79,8 +79,17 @@ class _TodoViewState extends State<TodoView> {
                   },
                   onTap: (todo) {
                     Navigator.of(context).pushNamed(
-                      createOrUpdateNotesRoute,
+                      createOrUpdateTodosRoute,
                       arguments: todo,
+                    );
+                  },
+                  onCheckTodo: (CloudTodos todo) {
+                    _todoService.updateTodo(
+                      documentId: todo.documentId,
+                      title: todo.title,
+                      isComplete: !todo.isCompleted,
+                      description: todo.description,
+                      dueDate: todo.dueDate,
                     );
                   },
                 );

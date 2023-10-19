@@ -24,7 +24,6 @@ class _CreateUpdateTodosViewState extends State<CreateUpdateTodosView> {
     _todosService = FirebaseCloudStorage();
     _textControllerOfTitle = TextEditingController();
     _textControllerOfdescrpition = TextEditingController();
-    _selectedDate = null;
     super.initState();
   }
 
@@ -38,11 +37,12 @@ class _CreateUpdateTodosViewState extends State<CreateUpdateTodosView> {
     final description = _textControllerOfdescrpition.text;
     final dueDate = _selectedDate;
     await _todosService.updateTodo(
-        documentId: todos.documentId,
-        title: title,
-        isComplete: _isCompleted,
-        description: description,
-        dueDate: dueDate);
+      documentId: todos.documentId,
+      title: title,
+      isComplete: _isCompleted,
+      description: description,
+      dueDate: dueDate,
+    );
   }
 
   void _setTextControllerListener() {
@@ -58,8 +58,8 @@ class _CreateUpdateTodosViewState extends State<CreateUpdateTodosView> {
     if (widgetTodos != null) {
       _todos = widgetTodos;
       _textControllerOfTitle.text = widgetTodos.title;
-      _textControllerOfdescrpition.text = widgetTodos.description!;
-      _selectedDate = widgetTodos.dueDate!;
+      _textControllerOfdescrpition.text = widgetTodos.description ?? '';
+      _selectedDate = widgetTodos.dueDate != null ? widgetTodos.dueDate! : null;
       _isCompleted = widgetTodos.isCompleted;
       return widgetTodos;
     }
@@ -126,57 +126,76 @@ class _CreateUpdateTodosViewState extends State<CreateUpdateTodosView> {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextField(
-                    controller: _textControllerOfTitle,
-                    decoration: const InputDecoration(
-                      hintText: 'Start typing your task here...',
+                  Card(
+                    margin: const EdgeInsets.all(10),
+                    elevation: 4,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller: _textControllerOfTitle,
+                            decoration: const InputDecoration(
+                              hintText: 'Start typing your task here...',
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller: _textControllerOfdescrpition,
+                            decoration: const InputDecoration(
+                              hintText:
+                                  'Start typing your task description here...',
+                            ),
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
+                          ),
+                        ),
+                        const Text(
+                          "Select Due Date for Task:",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        ElevatedButton(
+                          onPressed: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime.now(),
+                              lastDate: DateTime(2100),
+                            );
+                            if (pickedDate != null) {
+                              setState(() {
+                                _selectedDate = pickedDate;
+                              });
+                            }
+                          },
+                          child: const Text("Select Date"),
+                        ),
+                        ListTile(
+                            title: Text(
+                          _selectedDate == null
+                              ? 'No date selected'
+                              : 'Selected date: ${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}',
+                        )),
+                        ListTile(
+                          title: const Text('Is task completed?'),
+                          trailing: Checkbox(
+                            onChanged: (bool? value) {
+                              setState(() {
+                                _isCompleted = value ?? false;
+                              });
+                            },
+                            value: _isCompleted,
+                          ),
+                        ),
+                        ListTile(
+                          title: Text("Completed: $_isCompleted"),
+                        ),
+                      ],
                     ),
-                  ),
-                  TextField(
-                    controller: _textControllerOfdescrpition,
-                    decoration: const InputDecoration(
-                      hintText: 'Start typing your task description here...',
-                    ),
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-                  ),
-                  const Text(
-                    "Select Due Date for Task:",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime.now(),
-                        lastDate: DateTime(2100),
-                      );
-                      if (pickedDate != null) {
-                        setState(() {
-                          _selectedDate = pickedDate;
-                        });
-                      }
-                    },
-                    child: const Text("Select Date"),
-                  ),
-                  ListTile(
-                      title: Text(
-                    _selectedDate == null
-                        ? 'No date selected'
-                        : 'Selected date: ${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}',
-                  )),
-                  ListTile(
-                    title: const Text('Is task completed?'),
-                    trailing: Checkbox(
-                      onChanged: (bool? value) {
-                        setState(() {
-                          _isCompleted = value!;
-                        });
-                      },
-                      value: _isCompleted,
-                    ),
-                  ),
+                  )
                 ],
               );
             default:

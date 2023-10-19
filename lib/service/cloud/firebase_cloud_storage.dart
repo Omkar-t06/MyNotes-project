@@ -45,7 +45,7 @@ class FirebaseCloudStorage {
     try {
       await todos.doc(documentId).update({
         titleFieldName: title,
-        descriptionFieldName: description,
+        descriptionFieldName: description!,
         dueDateFieldName: dueDate != null ? Timestamp.fromDate(dueDate) : null,
         isCompletedFieldName: isComplete
       });
