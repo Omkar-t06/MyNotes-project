@@ -9,7 +9,7 @@ import 'package:mynotes/service/auth/firebase_auth_provider.dart';
 import 'package:mynotes/views/forgot_password_view.dart';
 import 'package:mynotes/views/login_view.dart';
 import 'package:mynotes/views/notes/create_update_notes_view.dart';
-//import 'package:mynotes/views/notes/notes_view.dart';
+import 'package:mynotes/views/notes/notes_view.dart';
 import 'package:mynotes/views/register_view.dart';
 import 'package:mynotes/views/todo/create_update_todos.dart';
 import 'package:mynotes/views/todo/todo_view.dart';
@@ -62,7 +62,7 @@ class HomePage extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is AuthStateLoggedIn) {
-          return const TodoView();
+          return const HomePageNav();
         } else if (state is AuthStateNeedVerification) {
           return const VerifyEmailView();
         } else if (state is AuthStateLoggedOut) {
@@ -77,6 +77,46 @@ class HomePage extends StatelessWidget {
           );
         }
       },
+    );
+  }
+}
+
+class HomePageNav extends StatefulWidget {
+  const HomePageNav({super.key});
+
+  @override
+  State<HomePageNav> createState() => _HomePageNavState();
+}
+
+class _HomePageNavState extends State<HomePageNav> {
+  int selectedIndex = 0;
+  final List<Widget> _pages = [
+    const NotesView(),
+    const TodoView(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _pages[selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notes),
+            label: 'Notes',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.checklist),
+            label: 'Todos',
+          ),
+        ],
+        currentIndex: selectedIndex,
+        onTap: (index) {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
+      ),
     );
   }
 }

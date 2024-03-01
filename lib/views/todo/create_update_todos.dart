@@ -59,7 +59,7 @@ class _CreateUpdateTodosViewState extends State<CreateUpdateTodosView> {
       _todos = widgetTodos;
       _textControllerOfTitle.text = widgetTodos.title;
       _textControllerOfdescrpition.text = widgetTodos.description ?? '';
-      _selectedDate = widgetTodos.dueDate != null ? widgetTodos.dueDate! : null;
+      _selectedDate = widgetTodos.dueDate;
       _isCompleted = widgetTodos.isCompleted;
       return widgetTodos;
     }
