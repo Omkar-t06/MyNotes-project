@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mynotes/service/auth/auth_exception.dart';
 import 'package:mynotes/service/auth/bloc/auth_event.dart';
+import 'package:mynotes/utilities/widgets/email_text_field.dart';
+import 'package:mynotes/utilities/widgets/password_text_field.dart';
 import '../service/auth/bloc/auth_bloc.dart';
 import '../service/auth/bloc/auth_state.dart';
 import '../utilities/dialog/error_dialog.dart';
@@ -71,36 +73,20 @@ class _RegisterViewState extends State<RegisterView> {
           children: [
             const Text("Enter your credentials to register"),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8,
-                vertical: 16,
-              ),
-              child: TextField(
-                controller: _email,
-                keyboardType: TextInputType.emailAddress,
-                autofocus: true,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Email',
-                  hintText: "Enter your email",
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 16,
                 ),
-              ),
-            ),
+                child: EmailTextField(
+                  emailController: _email,
+                )),
             Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: 8,
                 vertical: 5,
               ),
-              child: TextField(
-                controller: _password,
-                obscureText: true,
-                enableSuggestions: false,
-                autocorrect: false,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Password',
-                  hintText: "Enter your password",
-                ),
+              child: PasswordTextField(
+                passwordController: _password,
               ),
             ),
             TextButton(

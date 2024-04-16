@@ -46,14 +46,6 @@ class NoteListView extends StatelessWidget {
             motion: const BehindMotion(),
             children: [
               SlidableAction(
-                label: "Share",
-                onPressed: (context) async {
-                  Share.share(note.text);
-                },
-                icon: Icons.share,
-                backgroundColor: Colors.green,
-              ),
-              SlidableAction(
                 label: "Delete",
                 onPressed: (context) async {
                   final shouldDelete = await showDeleteDialog(context);
@@ -64,26 +56,32 @@ class NoteListView extends StatelessWidget {
                 icon: Icons.delete,
                 backgroundColor: Colors.red,
               ),
+              SlidableAction(
+                label: "Share",
+                onPressed: (context) async {
+                  Share.share(note.text);
+                },
+                icon: Icons.share,
+                backgroundColor: Colors.green,
+              ),
             ],
           ),
-          child: Card(
-            child: ListTile(
-              onTap: () => onTap(note),
-              title: Text(
-                note.text,
-                maxLines: 1,
-                softWrap: true,
-                overflow: TextOverflow.ellipsis,
-              ),
-              trailing: IconButton(
-                onPressed: () async {
-                  final shouldDelete = await showDeleteDialog(context);
-                  if (shouldDelete) {
-                    onDeleteNote(note);
-                  }
-                },
-                icon: const Icon(Icons.delete),
-              ),
+          child: ListTile(
+            onTap: () => onTap(note),
+            title: Text(
+              note.text,
+              maxLines: 1,
+              softWrap: true,
+              overflow: TextOverflow.ellipsis,
+            ),
+            trailing: IconButton(
+              onPressed: () async {
+                final shouldDelete = await showDeleteDialog(context);
+                if (shouldDelete) {
+                  onDeleteNote(note);
+                }
+              },
+              icon: const Icon(Icons.delete),
             ),
           ),
         );
